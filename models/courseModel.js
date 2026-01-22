@@ -32,7 +32,7 @@ const Course = myDB.define('Course', {
         defaultValue: false
     },
     instructor: {
-        types: DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {
