@@ -17,14 +17,34 @@
 
 ### Contrôleurs REST 🧭
 
+**Répertoire:** `app.js`
+ - **Base d'URL:**
+   - `/api/auth`
+   - `/api/courses`
+   - `/api/categories`
+
 **Répertoire:** `./controllers/`
 
-#### UserController
+#### AuthController
 
-- **Base d'URL:** 
-- **Endpoints clés:**
+#### CourseController
 
-## Modèles (Models) 👤
+- **Endpoints:**
+
+#### CategoryController
+- **Endpoints:**
+
+## Routes 🛣️
+
+**Répertoire:** `./routes/`
+
+Les routes sont organisées par domaine fonctionnel:
+
+| Route | Fichier | Description |
+|-------|---------|-------------|
+| `/api/auth` | `authRouter.js` | Authentification (inscription, connexion) |
+| `/api/courses` | `courseRouter.js` | Gestion des cours (CRUD complet) |
+| `/api/categories` | `categoryRouter.js` | Gestion des catégories (CRUD partiel) |
 
 **Répertoire:** `./models/`
 
@@ -97,6 +117,10 @@ Node_Express_Finale/
 │   ├── categoryModel.js
 │   ├── courseModel.js
 │   └── association.js
+├── routes/
+│   ├── authRouter.js
+│   ├── courseRouter.js
+│   └── categoryRouter.js
 ├── node_modules/
 └── .git/
 ```
@@ -121,7 +145,10 @@ npm run dev
 node app.js
 ```
 
-Une fois l'application démarrée, les endpoints `/users` sont accessibles sur `http://localhost:3000`.
+Une fois l'application démarrée, les endpoints sont accessibles sur `http://localhost:3000`:
+- `/api/auth` pour l'authentification
+- `/api/courses` pour les cours
+- `/api/categories` pour les catégories
 
 ## Notes additionnelles 📌
 
