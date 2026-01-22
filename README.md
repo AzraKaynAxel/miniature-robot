@@ -17,36 +17,50 @@
 
 ### Contrôleurs REST 🧭
 
-**Répertoire:** `app.js`
- - **Base d'URL:**
-   - `/api/auth`
-   - `/api/courses`
-   - `/api/categories`
-
 **Répertoire:** `./controllers/`
 
-#### AuthController
+#### AuthController (`authController.js`)
 
-#### CourseController
+Gère l'authentification des utilisateurs.
 
-- **Endpoints:**
+- **Méthodes:**
+  - `SingIn(req, res)` - Inscription utilisateur (crée un nouvel utilisateur)
+  - `SingUp(req, res)` - Connexion utilisateur (génère un token JWT)
 
-#### CategoryController
-- **Endpoints:**
+#### CourseController (`courseController.js`)
+
+Gère toutes les opérations CRUD sur les cours.
+
+- **Méthodes:**
+  - `getAllCourses(req, res)` - Récupère tous les cours
+  - `getCourseById(req, res)` - Récupère un cours par ID
+  - `getCoursesByLevel(req, res)` - Filtre les cours par niveau (Beginner, Intermediate, Advanced)
+  - `createCourse(req, res)` - Crée un nouveau cours
+  - `updateCourse(req, res)` - Met à jour un cours existant
+  - `deleteCourse(req, res)` - Supprime un cours
+
+#### CategoryController (`categoryController.js`)
+
+Gère les opérations sur les catégories.
+
+- **Méthodes:**
+  - `getAllCategories(req, res)` - Récupère toutes les catégories
+  - `getCategoryById(req, res)` - Récupère une catégorie par ID
+  - `createCategory(req, res)` - Crée une nouvelle catégorie
 
 ## Routes 🛣️
 
 **Répertoire:** `./routes/`
 
-Les routes sont organisées par domaine fonctionnel:
+Les routes sont organisées par domaine fonctionnel et font appel aux contrôleurs correspondants:
 
-| Route | Fichier | Description |
-|-------|---------|-------------|
-| `/api/auth` | `authRouter.js` | Authentification (inscription, connexion) |
-| `/api/courses` | `courseRouter.js` | Gestion des cours (CRUD complet) |
-| `/api/categories` | `categoryRouter.js` | Gestion des catégories (CRUD partiel) |
+| Route | Fichier | Contrôleur | Description |
+|-------|---------|-----------|-------------|
+| `/api/auth` | `authRouter.js` | `authController.js` | Authentification (inscription, connexion) |
+| `/api/courses` | `courseRouter.js` | `courseController.js` | Gestion des cours (CRUD complet) |
+| `/api/categories` | `categoryRouter.js` | `categoryController.js` | Gestion des catégories (CRUD partiel) |
 
-**Répertoire:** `./models/`
+## Modèles (Models) 👤
 
 | Modèle | Champs principaux | Relations | Fichier |
 |--------|------------------|-----------|---------|
@@ -121,6 +135,11 @@ Node_Express_Finale/
 │   ├── authRouter.js
 │   ├── courseRouter.js
 │   └── categoryRouter.js
+├── controllers/
+│   ├── authController.js
+│   ├── courseController.js
+│   └── categoryController.js
+├── middleware/
 ├── node_modules/
 └── .git/
 ```
@@ -159,6 +178,3 @@ Notes additionnelles 📌
 - La base de données SQLite est créée automatiquement au premier lancement (database.sqlite).
 - Les migrations ou les changements de schéma sont synchronisés via Sequelize.sync({alter: true}).
 - Utilisez des variables d'environnement (.env) pour les configurations sensibles en production.
-
-
-
