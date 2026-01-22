@@ -17,6 +17,12 @@
 
 ### Contrôleurs REST 🧭
 
+**Répertoire:** `app.js`
+ - **Base d'URL:**
+   - `/api/auth`
+   - `/api/courses`
+   - `/api/categories`
+
 **Répertoire:** `./controllers/`
 
 #### AuthController (`authController.js`)
@@ -139,7 +145,6 @@ Node_Express_Finale/
 │   ├── authController.js
 │   ├── courseController.js
 │   └── categoryController.js
-├── middleware/
 ├── node_modules/
 └── .git/
 ```
