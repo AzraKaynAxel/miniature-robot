@@ -17,12 +17,6 @@
 
 ### Contrôleurs REST 🧭
 
-**Répertoire:** `app.js`
- - **Base d'URL:**
-   - `/api/auth`
-   - `/api/courses`
-   - `/api/categories`
-
 **Répertoire:** `./controllers/`
 
 #### AuthController (`authController.js`)
@@ -78,15 +72,48 @@ Les routes sont organisées par domaine fonctionnel et font appel aux contrôleu
 - Category **hasMany** Course (1:N)
 - Course **belongsTo** Category (N:1)
 
+## Services (Business Logic) 💼
+
+**Répertoire:** `./services/`
+
+Les services contiennent la logique métier et interagissent avec la base de données via les modèles. Ils sont appelés par les contrôleurs.
+
+| Service | Fichier | Fonctions principales | Dépendances |
+|---------|---------|----------------------|-------------|
+| **AuthService** | `authService.js` | `registerUser()`, `loginUser()` | bcrypt, jsonwebtoken, User |
+| **CoursesService** | `coursesService.js` | `fetchAll()`, `fetchById()`, `fetchByLevel()`, `createCourse()`, `updateCourse()`, `deleteCourse()` | Course |
+| **CategoriesService** | `categoriesService.js` | `fetchAll()`, `fetchById()`, `create()` | Category, Course |
+
+**Responsabilités principales:**
+- **AuthService:** Enregistrement avec hachage bcrypt, connexion avec JWT (1h d'expiration)
+- **CoursesService:** CRUD complet sur les cours, filtrage par niveau
+- **CategoriesService:** Gestion des catégories avec inclusion des cours associés
+
 ## Contrôles, validations et gestion des erreurs 🧪
 
-### Contrôles dans les contrôleurs/services
+### Contrôles dans les services
+
+- **Authentification (authService):**
+  - Vérification de l'existence de l'utilisateur avant enregistrement
+  - Validation du mot de passe avec bcrypt
+  - Génération de JWT avec expiration (1h)
 
 - **Création/mise à jour:**
+  - Vérification de l'unicité des noms/titres
+  - Vérification de l'existence des ressources avant modification
+  - Lancement d'erreurs explicites en cas de violation
 
-- **Règles métier supplémentaires:** 
+- **Relations:**
+  - Inclusion automatique des données associées (ex: cours pour une catégorie)
 
-### Gestion globale des erreurs
+### Gestion des erreurs
+
+- Les services lancent des `Error` avec messages explicites
+- Les contrôleurs capturent ces erreurs et retournent les codes HTTP appropriés
+- Codes d'erreur principaux:
+  - `404` - Ressource non trouvée
+  - `400` - Données invalides ou ressource existante
+  - `401` - Authentification échouée
 
 
 ## Base de données 🗄️
@@ -145,6 +172,10 @@ Node_Express_Finale/
 │   ├── authController.js
 │   ├── courseController.js
 │   └── categoryController.js
+├── services/
+│   ├── authService.js
+│   ├── coursesService.js
+│   └── categoriesService.js
 ├── node_modules/
 └── .git/
 ```
