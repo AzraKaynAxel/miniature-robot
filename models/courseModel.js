@@ -39,3 +39,5 @@ const Course = myDB.define('Course', {
     tableName: 'Course',
     timestamps: true
 });
+
+module.exports = Course;
