@@ -9,7 +9,7 @@ const controller = {
                 res.status(404).json({message: 'No courses found'}); 
             }
 
-            res.status(200).json({allCourse});
+            res.status(200).json(allCourse);
         } catch (error) {
             res.status(500).json({error: error.message});
         }
@@ -22,7 +22,7 @@ const controller = {
                 res.status(404).json({message: 'Course with ' + req.params.id + ' not found'}); 
             }
 
-            res.status(200).json({myCourse});
+            res.status(200).json(myCourse);
         } catch (error) {
             res.status(500).json({error: error.message});
         }
@@ -35,11 +35,10 @@ const controller = {
                 res.status(404).json({message: 'No courses found for level ' + req.params.level});
             }
 
-            res.status(200).json({coursesByLevel});
+            res.status(200).json(coursesByLevel);
         } catch (error) {
             res.status(500).json({error: error.message});
         }
-        console.log("Je suis dans getCoursesByLevel");
     },
     createCourse: async (req, res) => {
         try {
@@ -50,7 +49,7 @@ const controller = {
 
             const newCourse = await coursesService.createCourse(req.body);
 
-            res.status(201).json({newCourse});
+            res.status(201).json(newCourse);
         } catch (error) {
             res.status(500).json({error: error.message});
         }
@@ -63,7 +62,7 @@ const controller = {
                 res.status(400).json({message: 'Not found course to update'});
             }
 
-            res.status(201).json({myUpdateCourse});
+            res.status(201).json(myUpdateCourse);
         } catch (error) {
             res.status(500).json({error: error.message});
         }
@@ -76,7 +75,7 @@ const controller = {
                 res.status(400).json({message: 'not found course to delete'});
             }
 
-            res.status(201).json({deletedCourse});
+            res.status(201).json(deletedCourse);
         } catch (error) {
             res.status(500).json({error: error.message});
         }
