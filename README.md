@@ -2,7 +2,7 @@
 
 ## Description 📋
 
-**Résumé 📝:** Ce dépôt contient un projet Node.js basé sur Express pour exposer une API REST permettant de gérer une liste d'utilisateurs avec une base de données SQLite via Sequelize (création, lecture, modification, suppression).
+**Résumé 📝:** Ce dépôt contient un projet Node.js basé sur Express pour exposer une API REST permettant de gérer des utilisateurs, des catégories et des cours avec une base de données SQLite via Sequelize (création, lecture, modification, suppression).
 
 ## Prérequis ✅
 
@@ -28,9 +28,15 @@
 
 **Répertoire:** `./models/`
 
-### User
+| Modèle | Champs principaux | Relations | Fichier |
+|--------|------------------|-----------|---------|
+| **User** | `username` (unique), `email` (unique), `password` | - | `userModel.js` |
+| **Category** | `name` (unique), `description` | hasMany Course | `categoryModel.js` |
+| **Course** | `title`, `description`, `duration`, `level`, `price`, `instructor`, `categoryId` | belongsTo Category | `courseModel.js` |
 
-- **Sequelize:** modèle défini avec les contraintes appropriées et les associations si nécessaire.
+**Associations** (`association.js`):
+- Category **hasMany** Course (1:N)
+- Course **belongsTo** Category (N:1)
 
 ## Contrôles, validations et gestion des erreurs 🧪
 
@@ -72,6 +78,8 @@
   - `sqlite3`
   - `nodemon`nces principales:
 express
+
+
 ## Structure du projet 📁
 
 ```
@@ -80,14 +88,15 @@ Node_Express_Finale/
 ├── package.json
 ├── package-lock.json
 ├── README.md
+├── .gitignore
 ├── db/
 │   └── sequelize/
 │       └── database.js
 ├── models/
-│   └── userModel.js
-├── controllers/
-├── routes/
-├── middleware/
+│   ├── userModel.js
+│   ├── categoryModel.js
+│   ├── courseModel.js
+│   └── association.js
 ├── node_modules/
 └── .git/
 ```
