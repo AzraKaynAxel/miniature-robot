@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
+const { registerValidate, loginValidate } = require('../validators/authValidator');
+const validate = require('../validators/validate')
 
-router.post('/register', authController.SingIn);
-router.post('/login', authController.SingUp);
+router.post('/register',registerValidate(), validate, authController.SingIn);
+router.post('/login', loginValidate(), validate, authController.SingUp);
 
 
 module.exports = router;

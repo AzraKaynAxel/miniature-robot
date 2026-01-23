@@ -36,7 +36,6 @@ const SingUp = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-    console.log("Ma route renvoie bien sur ce controller: login");
 };
 
 module.exports = { SingIn, SingUp };

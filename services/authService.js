@@ -10,18 +10,26 @@ const jwt = require('jsonwebtoken');
 const registerUser = async (userData) => {
     const { email, password } = userData;
 
+    console.log(email);
+
     // Vériffication si l'utilisateur existe déjà
     const existingUser = await User.findOne({ where: { email } });
+
+    console.log(existingUser);
+    
     if (existingUser) {
         throw new Error('User already exists');
     }
 
+    console.log("Je suis passée");
+    
     // Hachage du mot de passe
     const hashedPassword = await bcrypt.hash(password, 16);
     return await User.create({
         username: userData.username,
         email: userData.email,
-    })
+        password: hashedPassword
+    });
 };
 
 const loginUser = async (email, password) => {
@@ -41,7 +49,7 @@ const loginUser = async (email, password) => {
     const token = jwt.sign(
         { id: user.id, email: user.email },
         process.env.JWT_SECRET,
-        { expiresIn: '1h' }
+        { expiresIn: '24h' }
     );
 
     return { user, token };
