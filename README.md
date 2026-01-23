@@ -196,7 +196,11 @@ router.post('/', authMiddleware, courseBodyValidate, validate, courseController.
   - Synchronise les modèles avec le schéma (mode `alter` pour développement).
   - Affiche un message de confirmation en console.
 
-## Configuration ⚙️
+## Seed (Données initiales) 🌱
+
+**Fichier:** `seed/seed.js` - Initialise la BD avec 6 utilisateurs, 8 catégories et 20 cours. Utilise `force: true` pour recréer complètement les tables.
+
+**Commande:** `npm run devSeed`
 
 ### Application principale
 
@@ -260,35 +264,38 @@ Node_Express_Finale/
 
 ## Lancement de l'application 🚀
 
-### Installation des dépendances:
+### 1️⃣ Installation des dépendances
 
 ```bash
 npm install
 ```
 
-### Mode développement (avec nodemon):
+### 2️⃣ Initialiser la base de données (seed)
+```bash
+npm run devSeed
+```
 
+### 3️⃣ Démarrer l'application
+
+**Mode développement (avec nodemon):**
 ```bash
 npm run dev
 ```
 
-### Mode production:
-
+**Mode production:**
 ```bash
 node app.js
 ```
 
-Une fois l'application démarrée, les endpoints sont accessibles sur `http://localhost:3000`:
-- `/api/auth` pour l'authentification
-- `/api/courses` pour les cours
-- `/api/categories` pour les catégories
+### 📍 Endpoints disponibles
+
+Une fois démarrée, l'application est accessible sur `http://localhost:3000`:
+- `/api/auth` - Authentification (inscription, connexion)
+- `/api/courses` - Gestion des cours (CRUD)
+- `/api/categories` - Gestion des catégories
 
 ## Notes additionnelles 📌
 
-- La base de données SQLite est créée automatiquement au premier lancement (`database.sqlite`).
-- Les migrations ou les changements de schéma sont synchronisés via `Sequelize.sync({alter: true})`.
-- Utilisez des variables d'environnement (`.env`)
-Notes additionnelles 📌
-- La base de données SQLite est créée automatiquement au premier lancement (database.sqlite).
-- Les migrations ou les changements de schéma sont synchronisés via Sequelize.sync({alter: true}).
-- Utilisez des variables d'environnement (.env) pour les configurations sensibles en production.
+- La base de données SQLite est créée automatiquement au premier lancement (`database.sqlite`)
+- Les migrations et changements de schéma sont synchronisés via `Sequelize.sync({alter: true})`
+- Utilisez des variables d'environnement (`.env`) pour les configurations sensibles en production
