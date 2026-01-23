@@ -47,7 +47,7 @@ const controller = {
                 res.status(400).json({message: 'Please enter valid data for course creation'});
             }
 
-            const newCourse = await coursesService.createCourse(req.body);
+            const newCourse = await coursesService.create(req.body);
 
             res.status(201).json(newCourse);
         } catch (error) {
@@ -56,7 +56,7 @@ const controller = {
     },
     updateCourse: async (req, res) => {
         try {
-            const myUpdateCourse = await coursesService.updateCourse(req.params.id, req.body);
+            const myUpdateCourse = await coursesService.update(req.params.id, req.body);
 
             if (!myUpdateCourse) {
                 res.status(400).json({message: 'Not found course to update'});
@@ -69,13 +69,9 @@ const controller = {
     },
     deleteCourse: async (req, res) => {
         try {
-            const deletedCourse = await coursesService.deleteCourse(req.params.id);
+            const deletedCourse = await coursesService.delete(req.params.id);
             
-            if (!deletedCourse) {
-                res.status(400).json({message: 'not found course to delete'});
-            }
-
-            res.status(201).json(deletedCourse);
+            res.status(200).json({message: 'Course deleted successfully', deletedCourse});
         } catch (error) {
             res.status(500).json({error: error.message});
         }

@@ -13,7 +13,7 @@ const connectDB = async () => {
         console.log('Connection to SQLite has been established successfuly.');
         
         // Viens vérifier les models existant et les mets à jour
-        myDB.sync({alter: true});
+        await myDB.sync();
 
         console.log('All models were synchronized succesfully');
     } catch (error) {
