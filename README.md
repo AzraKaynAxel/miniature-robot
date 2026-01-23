@@ -91,6 +91,73 @@ Les services contiennent la logique métier et interagissent avec la base de don
 
 ## Contrôles, validations et gestion des erreurs 🧪
 
+### Middleware 🔐
+
+**Répertoire:** `./middleware/`
+
+#### AuthMiddleware (`authMiddleware.js`)
+
+Protège les routes nécessitant une authentification.
+
+**Fonctionnement:**
+- Récupère le token JWT du header `Authorization` (format: `Bearer <token>`)
+- Vérifie l'authenticité du token avec `process.env.JWT_SECRET`
+- Attache l'utilisateur décodé à `req.user`
+- Codes HTTP:
+  - `401` - Token manquant
+  - `403` - Token invalide ou expiré
+
+**Utilisation sur les routes:**
+```javascript
+router.post('/', authMiddleware, courseController.createCourse);
+router.put('/:id', authMiddleware, courseController.updateCourse);
+router.delete('/:id', authMiddleware, courseController.deleteCourse);
+```
+
+---
+
+### Validators ✅
+
+**Répertoire:** `./validators/`
+
+Les validateurs utilisent la bibliothèque `express-validator` pour valider les données des requêtes.
+
+#### AuthValidator (`authValidator.js`)
+
+Valide les données d'inscription et connexion.
+
+#### CourseValidator (`courseValidator.js`)
+
+Valide les données de création/modification de cours.
+
+#### CategoryValidator (`categoryValidator.js`)
+
+Valide les données de création de catégorie.
+
+| Validator | Fichier | Validations | Utilisé sur |
+|-----------|---------|------------|-----------|
+| **AuthValidator** | `authValidator.js` | `username` (min 3, unique), `email` (format valide), `password` (min 6) | Routes POST/PUT `/api/auth` |
+| **CourseValidator** | `courseValidator.js` | `title` (min 3, sanitisé), `description` (min 10, anti-XSS), `duration` (≥1), `level` (ENUM), `price` (≥0), `instructor` (obligatoire), `categoryId` (existe) | Routes POST/PUT `/api/courses` |
+| **CategoryValidator** | `categoryValidator.js` | `name` (min 3, unique, sanitisé), `description` (optionnel) | Routes POST/PUT `/api/categories` |
+| **Validate Middleware** | `validate.js` | Vérifie tous les résultats de validation via `validationResult()` | Utilisé après tous les validators |
+
+
+#### Validate Middleware (`validate.js`)
+
+Middleware général qui vérifie les résultats de validation.
+
+**Fonctionnement:**
+- Récupère les erreurs de validation via `validationResult(req)`
+- Retourne `400` avec le détail des erreurs si validation échouée
+- Appelle `next()` si tous les critères sont respectés
+
+**Flux de validation typique:**
+```javascript
+router.post('/', authMiddleware, courseBodyValidate, validate, courseController.createCourse);
+```
+
+---
+
 ### Contrôles dans les services
 
 - **Authentification (authService):**
@@ -110,10 +177,13 @@ Les services contiennent la logique métier et interagissent avec la base de don
 
 - Les services lancent des `Error` avec messages explicites
 - Les contrôleurs capturent ces erreurs et retournent les codes HTTP appropriés
+- Les validateurs retournent les erreurs de validation au format express-validator
 - Codes d'erreur principaux:
+  - `400` - Validation échouée ou données invalides
+  - `401` - Token manquant (authentification)
+  - `403` - Token invalide ou expiré (autorisation)
   - `404` - Ressource non trouvée
-  - `400` - Données invalides ou ressource existante
-  - `401` - Authentification échouée
+  - `500` - Erreur serveur
 
 
 ## Base de données 🗄️
@@ -156,6 +226,7 @@ Node_Express_Finale/
 ├── package-lock.json
 ├── README.md
 ├── .gitignore
+├── .env
 ├── db/
 │   └── sequelize/
 │       └── database.js
@@ -176,6 +247,13 @@ Node_Express_Finale/
 │   ├── authService.js
 │   ├── coursesService.js
 │   └── categoriesService.js
+├── middleware/
+│   └── authMiddleware.js
+├── validators/
+│   ├── authValidator.js
+│   ├── categoryValidator.js
+│   ├── courseValidator.js
+│   └── validate.js
 ├── node_modules/
 └── .git/
 ```

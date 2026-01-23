@@ -34,6 +34,13 @@ const Course = myDB.define('Course', {
     instructor: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'Category',
+            key: 'id'
+        }
     }
 }, {
     tableName: 'Course',

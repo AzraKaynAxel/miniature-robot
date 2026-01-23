@@ -10,7 +10,7 @@ const coursesService = {
     fetchByLevel: async (level) => {
         return await Course.findAll({ where: { level: level } });
     },
-    createCourse: async (courseData) => {
+    create: async (courseData) => {
         let courseIsExist = await Course.findOne({ where: { title: courseData.title } });
         
         if (courseIsExist) {
@@ -19,7 +19,7 @@ const coursesService = {
 
         return await Course.create(courseData);
     },
-    updateCourse: async (id, courseData) => {
+    update: async (id, courseData) => {
         let courseToUpdate = await Course.findByPk(id);
 
         if (!courseToUpdate) {
@@ -28,8 +28,14 @@ const coursesService = {
 
         return await courseToUpdate.update(courseData);
     },
-    deleteCourse: async (id) => {
-        return await Course.findByPk(id);
+    delete: async (id) => {        
+        let courseToDelete = await Course.findByPk(id);
+
+        if (!courseToDelete) {
+            throw new Error('Course with id ' + id + ' not found');
+        }
+
+        return await courseToDelete.destroy();
     }
 };
 
